@@ -13,7 +13,7 @@ export const StageArea = () => {
     if (firstPokemon.isLoading || secondPokemon.isLoading) {
         return <div>Loading...</div>
     }
-    console.log(firstPokemon.data?.sprites.other['official-artwork'])
+    console.log(firstPokemon.data?.name)
 
     return (
         <div>
@@ -23,13 +23,13 @@ export const StageArea = () => {
             <div className='p-2' />
             <div className='border rounded p-8 flex justify-between max-w-2xl'>
                 <div className='w-64 h-64 flex flex-col'>
-                    <img src={firstPokemon.data?.sprites.other['official-artwork'].front_default!.toString().slice(57)}
+                    <img src={firstPokemon.data?.sprites?.toString().slice(57)}
                         className="w-full" />
                     <div className='text-xl text-center capitalize'>{firstPokemon.data?.name}</div>
                 </div>
                 VS
                 <div className='w-64 h-64 flex flex-col'>
-                    <img src={secondPokemon.data?.sprites.other['official-artwork'].front_default!.toString().slice(57)}
+                    <img src={secondPokemon.data?.sprites?.toString().slice(57)}
                         className="w-full" />
                     <div className='text-xl text-center capitalize'>{secondPokemon.data?.name}</div>
                 </div>

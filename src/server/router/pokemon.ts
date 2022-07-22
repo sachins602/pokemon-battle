@@ -12,7 +12,7 @@ export const pokemonRouter = createRouter()
     async resolve({ input }) {
       const api = new PokemonClient();
       const pokemon = await api.getPokemonById(input!.id!).catch(err => { throw err; });
-      return pokemon
+      return {name: pokemon.name, sprites: pokemon.sprites.other.dream_world.front_default};
     },
   })
 
