@@ -13,7 +13,11 @@ export const StageArea = () => {
     if (firstPokemon.isLoading || secondPokemon.isLoading) {
         return <div>Loading...</div>
     }
-    console.log(firstPokemon.data?.name)
+
+    const voteForPowerful = (selected: number) => {
+        // TODO: fire mutations to presist changes
+        updateIds(getOptionsForVote())
+    }
 
     return (
         <div>
@@ -21,17 +25,23 @@ export const StageArea = () => {
                 Which Anime Do You Like?
             </div>
             <div className='p-2' />
-            <div className='border rounded p-8 flex justify-between max-w-2xl'>
+            <div className='border rounded p-8 flex justify-between max-w-2xl h-auto'>
                 <div className='w-64 h-64 flex flex-col'>
                     <img src={firstPokemon.data?.sprites?.toString().slice(57)}
                         className="w-full" />
                     <div className='text-xl text-center capitalize'>{firstPokemon.data?.name}</div>
+                    <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'>
+                        Attack
+                    </button>
                 </div>
                 VS
                 <div className='w-64 h-64 flex flex-col'>
                     <img src={secondPokemon.data?.sprites?.toString().slice(57)}
                         className="w-full" />
                     <div className='text-xl text-center capitalize'>{secondPokemon.data?.name}</div>
+                    <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'>
+                        Attack
+                    </button>
                 </div>
             </div>
         </div >

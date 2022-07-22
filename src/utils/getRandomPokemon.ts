@@ -1,5 +1,5 @@
 
-const MAX_POKEMON_ID = 1000
+const MAX_POKEMON_ID = 200
 
 export const getRandomPokemon: (notThisNumber?: number) => number =  (notThisNumber) => {
   const pokemonNumber = Math.floor(Math.random() * MAX_POKEMON_ID) + 1
