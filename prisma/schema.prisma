@@ -10,7 +10,7 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
-model Example {
+model Pokemon {
     id String @id @default(cuid())
 }
 
