@@ -1,4 +1,6 @@
 import { useState } from 'react'
+import type React from 'react'
+import { inferQueryResponse } from '../pages/api/trpc/[trpc]'
 import { getOptionsForVote } from '../utils/getRandomPokemon'
 import { trpc } from '../utils/trpc'
 
@@ -9,10 +11,6 @@ export const StageArea = () => {
 
     const firstPokemon = trpc.useQuery(["pokemon.get-pokemon-by-id", { id: first }])
     const secondPokemon = trpc.useQuery(["pokemon.get-pokemon-by-id", { id: second }])
-
-    if (firstPokemon.isLoading || secondPokemon.isLoading) {
-        return <div>Loading...</div>
-    }
 
     const voteForPowerful = (selected: number) => {
         // TODO: fire mutations to presist changes
@@ -26,28 +24,39 @@ export const StageArea = () => {
             </div>
             <div className='p-2' />
             <div className='border rounded p-8 flex justify-between max-w-2xl h-auto'>
-                <div className='w-64 h-64 flex flex-col'>
-                    <img src={firstPokemon.data?.sprites?.toString().slice(57)}
-                        className="w-full" />
-                    <div className='text-xl text-center capitalize'>{firstPokemon.data?.name}</div>
-                    <button
-                        onClick={() => voteForPowerful(first!)}
-                        className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'>
-                        Attack
-                    </button>
-                </div>
+                <>
+                    {!firstPokemon.isLoading &&
+                        firstPokemon.data &&
+                        secondPokemon.data &&
+                        !secondPokemon.isLoading && (
+                            <PokemonListing pokemon={firstPokemon.data} vote={() => voteForPowerful(first!)} />
+                        )}
+                </>
                 VS
-                <div className='w-64 h-64 flex flex-col'>
-                    <img src={secondPokemon.data?.sprites?.toString().slice(57)}
-                        className="w-full" />
-                    <div className='text-xl text-center capitalize'>{secondPokemon.data?.name}</div>
-                    <button
-                        onClick={() => voteForPowerful(second!)}
-                        className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'>
-                        Attack
-                    </button>
-                </div>
+                <>
+                    {!firstPokemon.isLoading &&
+                        firstPokemon.data &&
+                        secondPokemon.data &&
+                        !secondPokemon.isLoading && (
+                            <PokemonListing pokemon={secondPokemon.data} vote={() => voteForPowerful(second!)} />
+                        )}
+                </>
             </div>
         </div >
     )
+}
+type PokemonFromServer = inferQueryResponse<"pokemon.get-pokemon-by-id">
+
+const PokemonListing: React.FC<{ pokemon: PokemonFromServer, vote: () => void }> = (props) => {
+
+    return (<div className='flex flex-col'>
+        <img src={props.pokemon.sprites?.toString().slice(57)}
+            className="w-64 h-64" />
+        <div className='text-xl text-center capitalize'>{props.pokemon.name}</div>
+        <button
+            onClick={() => props.vote()}
+            className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'>
+            Attack
+        </button>
+    </div>)
 }
