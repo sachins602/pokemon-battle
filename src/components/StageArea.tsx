@@ -30,7 +30,9 @@ export const StageArea = () => {
                     <img src={firstPokemon.data?.sprites?.toString().slice(57)}
                         className="w-full" />
                     <div className='text-xl text-center capitalize'>{firstPokemon.data?.name}</div>
-                    <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'>
+                    <button
+                        onClick={() => voteForPowerful(first!)}
+                        className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'>
                         Attack
                     </button>
                 </div>
@@ -39,7 +41,9 @@ export const StageArea = () => {
                     <img src={secondPokemon.data?.sprites?.toString().slice(57)}
                         className="w-full" />
                     <div className='text-xl text-center capitalize'>{secondPokemon.data?.name}</div>
-                    <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'>
+                    <button
+                        onClick={() => voteForPowerful(second!)}
+                        className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'>
                         Attack
                     </button>
                 </div>
