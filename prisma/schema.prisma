@@ -2,16 +2,36 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-    provider = "prisma-client-js"
+    provider        = "prisma-client-js"
+    previewFeatures = ["referentialIntegrity"]
 }
 
 datasource db {
-    provider = "sqlite" // NOTE: sqlite does not work with NextAuth.js
-    url      = env("DATABASE_URL")
+    provider             = "mysql" // NOTE: sqlite does not work with NextAuth.js
+    url                  = env("DATABASE_URL")
+    shadowDatabaseUrl    = env("SHADOW_DATABASE_URL")
+    referentialIntegrity = "prisma"
+}
+
+model Vote {
+    id             String   @id @default(cuid())
+    createdAt      DateTime @default(now())
+    votedFor       Pokemon  @relation(name: "votesFor", fields: [votedForId], references: [id])
+    votedForId     Int
+    votedAgainst   Pokemon  @relation(name: "votesAgainst", fields: [votedAgainstId], references: [id])
+    votedAgainstId Int
+
+    @@index([votedForId])
+    @@index([votedAgainstId])
 }
 
 model Pokemon {
-    id String @id @default(cuid())
+    id          Int    @id
+    name        String
+    spriteUrl   String
+    attack      Int
+    VoteFor     Vote[] @relation("votesFor")
+    VoteAgainst Vote[] @relation("votesAgainst")
 }
 
 // Necessary for Next auth
