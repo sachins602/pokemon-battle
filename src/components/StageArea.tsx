@@ -21,7 +21,7 @@ export const StageArea = () => {
 
     const [point, setPoint] = useState(0);
 
-    const voteMutation = trpc.useMutation(["pokemon.cast-vote"]);
+    // const voteMutation = trpc.useMutation(["pokemon.cast-vote"]);
     const plausible = usePlausible();
 
     const voteForPowerful = (selected: number) => {
@@ -29,10 +29,10 @@ export const StageArea = () => {
         //if selected pokemon has more attack add point otherwise remove point
         if (selected === pokemonPair?.firstPokemon!.id) {
 
-            voteMutation.mutate({
-                votedFor: pokemonPair.firstPokemon.id,
-                votedAgainst: pokemonPair.secondPokemon!.id,
-            });
+            // voteMutation.mutate({
+            //     votedFor: pokemonPair.firstPokemon.id,
+            //     votedAgainst: pokemonPair.secondPokemon!.id,
+            // });
 
             if (pokemonPair.firstPokemon.attack! > pokemonPair.secondPokemon!.attack!) {
                 setPoint(point + 1)
@@ -45,10 +45,10 @@ export const StageArea = () => {
             }
         }
         else {
-            voteMutation.mutate({
-                votedFor: pokemonPair.secondPokemon!.id,
-                votedAgainst: pokemonPair.firstPokemon!.id,
-            });
+            // voteMutation.mutate({
+            //     votedFor: pokemonPair.secondPokemon!.id,
+            //     votedAgainst: pokemonPair.firstPokemon!.id,
+            // });
             if (pokemonPair.secondPokemon!.attack! > pokemonPair.firstPokemon!.attack!) {
                 setPoint(point + 1)
             }
@@ -60,10 +60,10 @@ export const StageArea = () => {
             }
         }
 
-        plausible("cast-vote");
+        // plausible("cast-vote");
         refetch();
     }
-    const fetchingNext = voteMutation.isLoading || isLoading;
+    // const fetchingNext = voteMutation.isLoading || isLoading;
 
     return (
         <div>
@@ -77,13 +77,13 @@ export const StageArea = () => {
                     <PokemonListing
                         pokemon={pokemonPair.firstPokemon}
                         vote={() => voteForPowerful(pokemonPair.firstPokemon!.id)}
-                        disabled={fetchingNext}
+                    // disabled={fetchingNext}
                     />
                     <div className="p-8 italic text-xl">{"or"}</div>
                     <PokemonListing
                         pokemon={pokemonPair.secondPokemon}
                         vote={() => voteForPowerful(pokemonPair.secondPokemon!.id)}
-                        disabled={fetchingNext}
+                    // disabled={fetchingNext}
                     />
                     <div className="p-2" />
                 </div>
@@ -108,13 +108,12 @@ type PokemonFromServer = inferQueryResponse<"pokemon.get-pokemon-pair">["firstPo
 const PokemonListing: React.FC<{
     pokemon: PokemonFromServer;
     vote: () => void;
-    disabled: boolean;
+    //disabled: boolean;
 }> = (props) => {
     console.log("logged:  ", props.pokemon?.spriteUrl)
     return (
         <div
-            className={`flex flex-col items-center transition-opacity ${props.disabled && "opacity-0"
-                }`}
+            className={`flex flex-col items-center transition-opacity`}
             key={props.pokemon?.id}
         >
             <div className="text-xl text-center capitalize mt-[-0.5rem]">
@@ -135,7 +134,7 @@ const PokemonListing: React.FC<{
             <button
                 className={btn}
                 onClick={() => props.vote()}
-                disabled={props.disabled}
+            // disabled={props.disabled}
             >
                 Attack
             </button>

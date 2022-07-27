@@ -18,19 +18,19 @@ export const pokemonRouter = createRouter()
       return { firstPokemon: bothPokemon[0], secondPokemon: bothPokemon[1] };
     },
   })
-  .mutation("cast-vote", {
-    input: z.object({
-      votedFor: z.number(),
-      votedAgainst: z.number(),
-    }),
-    async resolve({ input }) {
-      const voteInDb = await prisma.vote.create({
-        data: {
-          votedAgainstId: input.votedAgainst,
-          votedForId: input.votedFor,
-        },
-      });
-      return { success: true, vote: voteInDb };
-    },
-  });
+  // .mutation("cast-vote", {
+  //   input: z.object({
+  //     votedFor: z.number(),
+  //     votedAgainst: z.number(),
+  //   }),
+  //   async resolve({ input }) {
+  //     const voteInDb = await prisma.vote.create({
+  //       data: {
+  //         votedAgainstId: input.votedAgainst,
+  //         votedForId: input.votedFor,
+  //       },
+  //     });
+  //     return { success: true, vote: voteInDb };
+  //   },
+  // });
 
