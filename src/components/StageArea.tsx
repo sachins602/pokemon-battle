@@ -143,18 +143,13 @@ const PokemonListing: React.FC<{
             <div className="text-xl text-center capitalize mt-[-0.5rem]">
                 {props.pokemon?.name}
             </div>
-            <img
-                src={props.pokemon?.spriteUrl}
-                className="w-72 h-72 animate-fade-in"
-                alt={props.pokemon?.name}
-            />
-            {/* <Image
+            <Image
                 src={props.pokemon!.spriteUrl}
                 width={256}
                 height={256}
                 layout="fixed"
                 className="animate-fade-in"
-            /> */}
+            />
             <button
                 className={btn}
                 onClick={() => props.vote()}

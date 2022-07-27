@@ -14,4 +14,8 @@ function defineNextConfig(config) {
 
 export default defineNextConfig({
   reactStrictMode: true,
+  images: {
+    domains: ["raw.githubusercontent.com"],
+    minimumCacheTTL: 6000000,
+  },
 });
