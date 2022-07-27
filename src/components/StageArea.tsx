@@ -20,6 +20,7 @@ export const StageArea = () => {
     });
 
     const [point, setPoint] = useState(0);
+    const [open, setOpen] = useState(false);
 
     // const voteMutation = trpc.useMutation(["pokemon.cast-vote"]);
     const plausible = usePlausible();
@@ -38,7 +39,8 @@ export const StageArea = () => {
                 setPoint(point + 1)
             }
             else if (pokemonPair.firstPokemon.attack! < pokemonPair.secondPokemon!.attack!) {
-                setPoint(0)
+                setOpen(true)
+
             }
             else {
                 setPoint(point)
@@ -53,7 +55,7 @@ export const StageArea = () => {
                 setPoint(point + 1)
             }
             else if (pokemonPair.secondPokemon!.attack! < pokemonPair.firstPokemon!.attack!) {
-                setPoint(0)
+                setOpen(true)
             }
             else {
                 setPoint(point)
@@ -71,6 +73,28 @@ export const StageArea = () => {
                 Which Pokemon Is Stronger?
             </div>
             <div className='text-4xl text-blue-500 ml-72'>{point}</div>
+            <dialog open={open} className=" mt-40">
+                <div className=" opacity-90 fixed inset-0 z-50">
+
+                    <div className="flex h-screen justify-center items-center ">
+
+                        <div className="flex-col justify-center  bg-white py-12 px-24 border-4 border-sky-500 rounded-xl ">
+
+                            <div className="flex  text-lg  text-zinc-600   mb-10" >Your Score: {point}</div>
+                            <button
+                                className={replayBtn}
+                                onClick={() => {
+                                    setPoint(0)
+                                    setOpen(false)
+                                }}
+                            >
+                                Replay
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </dialog>
             <div className='p-2' />
             {pokemonPair && (
                 <div className="p-8 flex justify-between items-center max-w-2xl flex-col md:flex-row animate-fade-in">
@@ -144,3 +168,7 @@ const PokemonListing: React.FC<{
 
 const btn =
     "inline-flex items-center px-3 py-1.5 border border-gray-300 shadow-sm font-medium rounded-full text-gray-700 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500";
+
+
+const replayBtn =
+    "rounded px-4 py-2 text-white  bg-green-400";
